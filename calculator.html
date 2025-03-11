@@ -82,17 +82,16 @@
       const numbersArr = Array.from(document.getElementsByClassName("number"));
       const operatorsArr = Array.from(document.getElementsByClassName("operator"));
       const parenthesisArr = Array.from(document.getElementsByClassName("parenthesis"));
+      const decimalArr = Array.from(document.getElementsByClassName("decimal"));
       const numberStrs = "0123456789".split("");
 
       const data = {
         displayString: "0",
         appendStringNum: (newChar) => {
-          if (newChar === ".") {
+          if (numberStrs.includes(newChar) || newChar === ".") {
             //decimal + 0?
-          }
 
-          if (numberStrs.includes(newChar)) {
-            if (data.displayString === "0") {
+            if (data.displayString === "0" && newChar !== ".") {
               data.displayString = "";
             }
             data.displayString += newChar;
@@ -138,6 +137,12 @@
       display.innerText = data.displayString;
 
       numbersArr.map((elem, i) => {
+        elem.addEventListener("click", (evt) => {
+          data.appendStringNum(elem.innerText);
+        });
+      });
+
+      decimalArr.map((elem, i) => {
         elem.addEventListener("click", (evt) => {
           data.appendStringNum(elem.innerText);
         });
