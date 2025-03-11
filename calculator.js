@@ -28,17 +28,16 @@ class Node{
     }
 
 
-// Function to convert an infix expression to postfix using the Shunting-yard algorithm.
+// function to convert an infix expression to postfix
 function infixToPostfix(infix) {
-    // Tokenize the input using a regular expression:
-    // This splits the expression into numbers, operators, and parentheses.
+    // Tokenize the input using a regular expression
+    // this splits the expression into numbers, operators, and parentheses.
     const tokens = infix.match(/(\d+\.?\d*|\+|\-|\*|\/|\(|\))/g);
     if (!tokens) return [];
   
     const outputQueue = [];
     const operatorStack = [];
-    // Define operator precedence.
-    const precedence = { '+': 1, '-': 1, '*': 2, '/': 2 };
+    const precedence = { '+': 1, '-': 1, '*': 2, '/': 2 }; // Define operator precedence.
   
     tokens.forEach((token) => {
       // If the token is a number, add it to the output queue.
@@ -47,7 +46,7 @@ function infixToPostfix(infix) {
       } else if (token === '(') {
         operatorStack.push(token);
       } else if (token === ')') {
-        // Pop from the stack to the output queue until you find '('.
+        // Pop from the stack to the output queue until we find '('.
         while (
           operatorStack.length > 0 &&
           operatorStack[operatorStack.length - 1] !== '('
@@ -57,8 +56,7 @@ function infixToPostfix(infix) {
         operatorStack.pop(); // Remove the '(' from the stack.
       } else {
         // The token is an operator.
-        // While there is an operator at the top of the stack with greater or equal precedence,
-        // pop it to the output queue.
+        // While there is an operator at the top of the stack with greater or equal precedence, pop it to the output queue.
         while (
           operatorStack.length > 0 &&
           operatorStack[operatorStack.length - 1] !== '(' &&
@@ -70,14 +68,14 @@ function infixToPostfix(infix) {
       }
     });
   
-    // Pop any remaining operators onto the output queue.
+    //Pop any remaining operators onto the output queue
     while (operatorStack.length > 0) {
       outputQueue.push(operatorStack.pop());
     }
     return outputQueue;
   }
   
-  // Function to evaluate a postfix expression.
+  // Function to evaluate a postfix expression
   function evaluatePostfix(postfixTokens) {
     const stack = [];
     postfixTokens.forEach((token) => {
@@ -85,7 +83,7 @@ function infixToPostfix(infix) {
         // Push numbers onto the stack.
         stack.push(parseFloat(token));
       } else {
-        // The token is an operator; pop two numbers off the stack.
+        // The token is an operator,, pop two numbers off the stack
         const b = stack.pop();
         const a = stack.pop();
         switch (token) {
@@ -107,15 +105,14 @@ function infixToPostfix(infix) {
     return stack.pop();
   }
   
-  // Master function to evaluate an infix expression.
+  // Master function to evaluate an infix expression
   function evaluateExpression(expr) {
     const postfix = infixToPostfix(expr);
     const result = evaluatePostfix(postfix);
     return result;
   }
   
-  // Attach an event listener to the equals button.
-  // (Assumes the global "data" object is already defined by the inline script.)
+  // Attach an event listener to the equals button
   const equalsButton = document.querySelector(".equals");
   equalsButton.addEventListener("click", () => {
     const result = evaluateExpression(data.displayString);
